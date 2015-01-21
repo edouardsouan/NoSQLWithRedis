@@ -1,6 +1,8 @@
 require 'redis'
 require 'json'
 require 'net/http'
+require 'nokogiri'
+require 'open-uri'
 
 class Worker
 	def  storeJob(serializedJob)
@@ -42,6 +44,9 @@ class CrawlerWorker < Worker
 
 	def displayWebSiteTitle(url)
 		result = Net::HTTP.get_response(URI.parse(url)).body
-		puts result
+		doc = Nokogiri::HTML(result)
+		doc.xpath('//title').each do |title|
+			puts "The title of this Website is : #{title.content.split(" ")}"
+		end
 	end
 end

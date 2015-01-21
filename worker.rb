@@ -46,7 +46,7 @@ class CrawlerWorker < Worker
 		result = Net::HTTP.get_response(URI.parse(url)).body
 		doc = Nokogiri::HTML(result)
 		doc.xpath('//title').each do |title|
-			puts "The title of this Website is : #{title.content.split(" ")}"
+			puts "The title of this Website is : #{title.content.split(" ")[0]}"
 		end
 	end
 end
